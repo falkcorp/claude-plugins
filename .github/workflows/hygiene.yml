@@ -1,0 +1,47 @@
+# file: .github/workflows/hygiene.yml
+# version: 1.0.0
+# guid: 14f83d1e-5de8-4dcd-a1d0-0e9145591bf3
+# last-edited: 2026-07-05
+
+# Public-repo hygiene gate. Two checks:
+#   1. No private-infra strings anywhere in the tracked tree.
+#   2. marketplace.json parses as strict JSON and every plugins[].source.url
+#      is an https:// GitHub URL (never a local path or private host).
+# This file excludes itself from the grep because it necessarily contains the
+# forbidden patterns as pattern text.
+
+name: hygiene
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: No private-infra strings
+        run: |
+          set -euo pipefail
+          if grep -rnE '172\.16\.|/Users/[a-z]+|/home/[a-z]+|lenserv|rpiserv|windows-gpu|jdfalk' . \
+              --exclude-dir=.git \
+              --exclude=hygiene.yml; then
+            echo "::error::Private-infra string found in the tree (matches above). Parameterize or remove it." >&2
+            exit 1
+          fi
+          echo "clean: no private-infra strings"
+
+      - name: Marketplace manifest is valid and every source is a public GitHub URL
+        run: |
+          set -euo pipefail
+          python -m json.tool .claude-plugin/marketplace.json > /dev/null
+          python3 - <<'PY'
+          import json
+          data = json.load(open(".claude-plugin/marketplace.json"))
+          for p in data["plugins"]:
+              url = p["source"]["url"]
+              assert url.startswith("https://github.com/"), f"{p['name']}: source.url must be a public GitHub URL, got {url}"
+          print(f"clean: {len(data['plugins'])} plugin source(s) all public GitHub URLs")
+          PY

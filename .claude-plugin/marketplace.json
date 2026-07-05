@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "falkcorp",
+  "description": "falkcorp's Claude Code plugin marketplace — add once, get every falkcorp plugin.",
+  "owner": {
+    "name": "falkcorp",
+    "url": "https://github.com/falkcorp"
+  },
+  "plugins": [
+    {
+      "name": "plan-op",
+      "description": "Plan everything, execute nothing: spec → plan → breakdown → weak-model-proof task briefs with gates and waves.",
+      "author": { "name": "falkcorp" },
+      "category": "development",
+      "source": { "source": "url", "url": "https://github.com/falkcorp/plan-op.git" },
+      "homepage": "https://github.com/falkcorp/plan-op"
+    },
+    {
+      "name": "audiobook-organizer",
+      "description": "Expert Claude Code assistance for the audiobook-organizer codebase — shared context loading, Go/DB/docs/PII specialist agents.",
+      "author": { "name": "falkcorp" },
+      "category": "development",
+      "source": { "source": "url", "url": "https://github.com/falkcorp/audiobook-organizer.git" },
+      "homepage": "https://github.com/falkcorp/audiobook-organizer"
+    }
+  ]
+}
