@@ -12,7 +12,7 @@
       "description": "Plan everything, execute nothing: spec → plan → breakdown → weak-model-proof task briefs with gates and waves.",
       "author": { "name": "falkcorp" },
       "category": "development",
-      "source": { "source": "url", "url": "https://github.com/falkcorp/plan-op.git" },
+      "source": { "source": "github", "repo": "falkcorp/plan-op" },
       "homepage": "https://github.com/falkcorp/plan-op"
     },
     {
@@ -20,7 +20,7 @@
       "description": "Expert Claude Code assistance for the audiobook-organizer codebase — shared context loading, Go/DB/docs/PII specialist agents.",
       "author": { "name": "falkcorp" },
       "category": "development",
-      "source": { "source": "url", "url": "https://github.com/falkcorp/audiobook-organizer.git" },
+      "source": { "source": "github", "repo": "falkcorp/audiobook-organizer" },
       "homepage": "https://github.com/falkcorp/audiobook-organizer"
     }
   ]
