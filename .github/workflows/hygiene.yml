@@ -33,7 +33,7 @@ jobs:
           fi
           echo "clean: no private-infra strings"
 
-      - name: Marketplace manifest is valid and every source is a public GitHub repo
+      - name: Marketplace manifest is valid and every source is a public HTTPS GitHub URL
         run: |
           set -euo pipefail
           python -m json.tool .claude-plugin/marketplace.json > /dev/null
@@ -42,6 +42,7 @@ jobs:
           data = json.load(open(".claude-plugin/marketplace.json"))
           for p in data["plugins"]:
               src = p["source"]
-              assert src.get("source") == "github" and "/" in src.get("repo", ""), f"{p['name']}: source must be a github {{owner/repo}} entry, got {src}"
-          print(f"clean: {len(data['plugins'])} plugin source(s) all github owner/repo entries")
+              url = src.get("url", "")
+              assert src.get("source") == "url" and url.startswith("https://github.com/"), f"{p['name']}: source must be a url-type entry with an https://github.com/ URL (the github shorthand type clones over SSH and fails for anonymous installs), got {src}"
+          print(f"clean: {len(data['plugins'])} plugin source(s) all https:// GitHub URLs")
           PY
